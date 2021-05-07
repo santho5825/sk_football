@@ -243,18 +243,23 @@ function CGame(e) {
             (n = createBitmap(s_oSpriteLibrary.getSprite("bg_game")), undefined, undefined, CANVAS_WIDTH, CANVAS_HEIGHT),
             n.cache(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT),
             s.addChild(n),
+            (i = new CScenario(M)),
+            (D = SHOW_3D_RENDER ? camera : createOrthoGraphicCamera());
+        var e = s_oSpriteLibrary.getSprite("goal");
+        (u = new CGoal(291, 28, e, s)), 
             (n = createBitmap(s_oSpriteLibrary.getSprite("odd_middle_green")),undefined, undefined, 300, 80),
             (n.x = 371),
                 (n.y = 131),
             s.addChild(n), 
             (n = new createjs.Text("3", "15px " + FONT_GAME, TEXT_COLOR)),
-                (n.textAlign = "center"),
-                (n.y = 80),
-                s.addChild(n), 
+            (n.textAlign = "center"),
+            (n.y = 80),
+            s.addChild(n), 
             (n = createBitmap(s_oSpriteLibrary.getSprite("odds-blue-left")),undefined, undefined, 300, 80),
             (n.x = 308),
-                (n.y = 129),
+            (n.y = 129),
             s.addChild(n),  
+            
             (n = createBitmap(s_oSpriteLibrary.getSprite("odds-blue-right")),undefined, undefined, 600, 80),
             (n.x = 999.5),
                 (n.y = 129),
@@ -271,6 +276,10 @@ function CGame(e) {
             (n.x = 998),
                 (n.y = 45),
             s.addChild(n), 
+            (n = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
+            (n.x = 320),
+                (n.y = 30),
+            s.addChild(n), 
             //  (n = createBitmap(s_oSpriteLibrary.getSprite("odds-defender")),undefined, undefined, 940, 01),
             // (n.x = 250),
             //     (n.y = 400),
@@ -279,10 +288,7 @@ function CGame(e) {
             // (n.x = 998),
             //     (n.y = 45),
             // s.addChild(n),
-            (i = new CScenario(M)),
-            (D = SHOW_3D_RENDER ? camera : createOrthoGraphicCamera());
-        var e = s_oSpriteLibrary.getSprite("goal");
-        (u = new CGoal(291, 28, e, s)), 
+          
         (S = new CGoalKeeper(CANVAS_WIDTH_HALF - 100, CANVAS_HEIGHT_HALF - 225, s)), T.push(S);
         ////// console.log(S, T, 'goalKeeper');
         var r = s_oSpriteLibrary.getSprite("ball");
@@ -388,7 +394,8 @@ function CGame(e) {
 
                    {"point":6,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":521.0583684950773,"y":60.20926756352765} , color: 'W', pos: 'MIDDLE'},
                    {"point":7,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":516.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'LEFT'},
-                    {"point":8,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":918.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'RIGHT'},
+                    {"point":8,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":918.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'RIGHT'}, 
+                    {"point":9,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":541.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'RIGHT'},
 
 
 
@@ -403,7 +410,7 @@ function CGame(e) {
                         indexVal = indVal;
                     }
                 }
-                // indexVal = 7;
+                // indexVal = 4;
                 r = arr[indexVal].r;
                 l = arr[indexVal].l;
                 // console.log(r, l, FORCE_RATE, arr[indexVal].point, 'position => ', position);
@@ -632,6 +639,7 @@ function CGame(e) {
             }
         }),
         (this.goalAnimation = function (e) {
+            console.log(e, 'goalAnimation');
             e > FORCE_BALL_DISPLAY_SHOCK[0].min && e < FORCE_BALL_DISPLAY_SHOCK[0].max
                 ? this.displayShock(INTENSITY_DISPLAY_SHOCK[0].time, INTENSITY_DISPLAY_SHOCK[0].x, INTENSITY_DISPLAY_SHOCK[0].y)
                 : e > FORCE_BALL_DISPLAY_SHOCK[1].min && e < FORCE_BALL_DISPLAY_SHOCK[1].max
@@ -689,10 +697,16 @@ function CGame(e) {
             // console.log(e.y > BALL_OUT_Y, e.x > BACK_WALL_GOAL_SIZE.width, Math.ceil(e.x)-2, Math.ceil(e.x)+2, exVal < -BACK_WALL_GOAL_SIZE.width,(E = TIME_RESET_AFTER_BALL_OUT)), 
             // console.log('resetPoleCollision');
             // if(w = !0){
-                if(exVal < -BACK_WALL_GOAL_SIZE.width && (w = !0)) {
-                    console.log('fds', e);
-                    p = 6;
+                if(e.x < -DEFENDER_GOAL_SIZE.width && (w = !0)) {
+                    console.log('pos--', e);
+                    p = 9;
                     
+                    this.calculateScore(), playSound("goal", 1, 0);
+                }
+                if(exVal < -BACK_WALL_GOAL_SIZE.width && (w = !0)) {
+                    console.log('pos--', e);
+                    p = 6;
+                    this.resetPoleCollision();
                     this.calculateScore(), playSound("goal", 1, 0);
                 } else if( (e.y > BALL_OUT_Y || e.x > BACK_WALL_GOAL_SIZE.width || e.x < -BACK_WALL_GOAL_SIZE.width) &&
                 ((w = !0))){
@@ -1777,6 +1791,7 @@ function CScenario() {
             return l;
         }),
         (this.lineGoalCollision = function (e) {
+            console.log('lineGoalCollision');
             s_oGame.areaGoal(e.contact.bj.userData);
         }),
         (this.update = function () {
@@ -1807,6 +1822,7 @@ function CBall(e, t, n, i, o) {
             (l = createBitmap(r)), (l.x = e), (l.y = t), (l.regX = 0.5 * r.width), (l.regY = 0.5 * r.height), this.scaleShadow(u), c.addChild(l, a);
         }),
         (this.rolls = function () {
+            
             var e = 0.15 * r.velocity.x,
                 t = Math.sin(-e);
             a.rotation = Math.degrees(t);
@@ -1952,7 +1968,7 @@ function CMain(e) {
                 s_oSpriteLibrary.addSprite("but_exit", "./sprites/but_exit.png"),
                 s_oSpriteLibrary.addSprite("bg_menu", "./assets/image/bg_menu.jpg"),
                 s_oSpriteLibrary.addSprite("bg_game", "./assets/image/bg_game.jpg"),
-                s_oSpriteLibrary.addSprite("odd_middle_green", "./assets/image/level1/green-point.png"),
+                s_oSpriteLibrary.addSprite("odd_middle_green", "./assets/image/level1/green-point.png"),s_oSpriteLibrary.addSprite("defender", "./assets/image/defender@2x.png"),
                 s_oSpriteLibrary.addSprite("odds-blue-right", "./assets/image/level1/odds-blue-right.png"),
                 s_oSpriteLibrary.addSprite("odds-blue-left", "./assets/image/level1/odds-blue-left.png"),
                 s_oSpriteLibrary.addSprite("odd_top_blue", "./assets/image/level1/odds-blue-top.png"),
@@ -2676,6 +2692,7 @@ var CANVAS_WIDTH = 1360,
     TIME_POLE_COLLISION_RESET = 1e3,
     LIMIT_HAND_RANGE_POS = { x: 16.8, zMax: 3.1, zMin: -8.5 },
     BACK_WALL_GOAL_SIZE = { width: 20.5, depth: 1, height: 7.5 },
+    DEFENDER_GOAL_SIZE = { width: 3, depth: 1, height: 6.5 },
     LEFT_RIGHT_WALL_GOAL_SIZE = { width: 0.1, depth: 25, height: 7.5 },
     UP_WALL_GOAL_SIZE = { width: 20.5, depth: 25, height: 0.1 },
     BACK_WALL_GOAL_POSITION = { x: 0, y: 155, z: -2.7 },

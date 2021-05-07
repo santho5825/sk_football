@@ -197,7 +197,7 @@ var sendOrderObj = [{
         "hitOdds": 0.5,
         "currentWinAmount": 500.00,
         "gkHit": "Y",
-        "guardHit": "N",
+        "guardHit": "Y",
         "colorHit": "W"
     },
     "message": "Success"
