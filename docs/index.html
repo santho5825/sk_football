@@ -198,6 +198,7 @@
                 var gkHit = soObj.data.gkHit == "N"? 0: 100;
                 var config = soObj.data.nextRoundsConfig.colorConfig;
                 var hitOdds = soObj.data.hitOdds;
+                var guardHit = soObj.data.guardHit;
                 // console.log(hitOdds , 'hitOdds');
                 var sampleCode = [
                 {id: 0, probability: gkHit, value: 8, color: 'O'}, 
@@ -249,6 +250,7 @@
                     area_goal_prop: sampleCode,
                       
                     gkOdd: hitOdds,
+                    guardHit: !!(guardHit == 'Y'),
                     area_goal: [
                         {id: 0, probability: 100, value: 8}, 
                         {id: 1, probability: 80, value: 3},

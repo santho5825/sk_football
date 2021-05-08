@@ -230,7 +230,7 @@ function CPlayer(e, t, n) {
 }
 function CGame(e) {
     var goalCount = 0;
-    var t, n, i, o, a, s, r, l, c, d, h, u, _, p, E, f, m, g, T, A, S = null, v = null, b = !1, y = !1, w = !1, x = !1, O = !1, C = !1, L = !1, R = !1, N = !1, M = 1, I = 0, H = 0, P = 0, G = STATE_INIT, D = null;
+    var t, n, def, i, o, a, s, r, l, c, d, h, u, _, p, E, f, m, g, T, A, S = null, v = null, b = !1, y = !1, w = !1, x = !1, O = !1, C = !1, L = !1, R = !1, N = !1, M = 1, I = 0, H = 0, P = 0, G = STATE_INIT, D = null;
     (this._init = function () {
         $(s_oMain).trigger("start_session"),
             this.pause(!0),
@@ -276,10 +276,12 @@ function CGame(e) {
             (n.x = 998),
                 (n.y = 45),
             s.addChild(n), 
-            (n = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
-            (n.x = 320),
-                (n.y = 30),
-            s.addChild(n), 
+            (def = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
+            (def.x = 320),
+                (def.y = 30),
+            s.addChild(def), 
+            
+        // createjs.Ticker.addEventListener("tick", stage);
             //  (n = createBitmap(s_oSpriteLibrary.getSprite("odds-defender")),undefined, undefined, 940, 01),
             // (n.x = 250),
             //     (n.y = 400),
@@ -410,7 +412,47 @@ function CGame(e) {
                         indexVal = indVal;
                     }
                 }
-                // indexVal = 4;
+                // indexVal = 3;
+                pos = arr[indexVal].pos;
+                console.log(GUARD_HIT, 'GUARD_HIT');
+
+                if(pos == 'LEFT' && !GUARD_HIT){
+                    createjs.Tween.get(def, {loop: false})
+          .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+       
+        createjs.Ticker.setFPS(60);
+    } else if(pos == 'RIGHT'){
+                    createjs.Tween.get(def, {loop: false})
+                    .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                  createjs.Ticker.setFPS(60);
+                }
+
+                if(pos == 'LEFT' && GUARD_HIT){
+                    createjs.Tween.get(def, {loop: false})
+                    // .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+                  //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+                  //   .to({alpha: 0, y: 125}, 100)
+                  //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+                    .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                  createjs.Ticker.setFPS(60);
+                } else if(pos == 'RIGHT'){
+                    createjs.Tween.get(def, {loop: false})
+          .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+        //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+        //   .to({alpha: 0, y: 125}, 100)
+        //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+        //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+        createjs.Ticker.setFPS(60);
+                }else{
+        //             createjs.Tween.get(def, {loop: false})
+        //   .to({x: 1000}, 1000, createjs.Ease.getPowInOut(4))
+        // //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+        // //   .to({alpha: 0, y: 125}, 100)
+        // //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+        //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+        // createjs.Ticker.setFPS(60);
+                }
+
                 r = arr[indexVal].r;
                 l = arr[indexVal].l;
                 // console.log(r, l, FORCE_RATE, arr[indexVal].point, 'position => ', position);
@@ -640,6 +682,7 @@ function CGame(e) {
         }),
         (this.goalAnimation = function (e) {
             console.log(e, 'goalAnimation');
+            
             e > FORCE_BALL_DISPLAY_SHOCK[0].min && e < FORCE_BALL_DISPLAY_SHOCK[0].max
                 ? this.displayShock(INTENSITY_DISPLAY_SHOCK[0].time, INTENSITY_DISPLAY_SHOCK[0].x, INTENSITY_DISPLAY_SHOCK[0].y)
                 : e > FORCE_BALL_DISPLAY_SHOCK[1].min && e < FORCE_BALL_DISPLAY_SHOCK[1].max
@@ -676,6 +719,7 @@ function CGame(e) {
                 });
         }),
         (this.resetScene = function () {
+            console.log('resetSccene');
             (b = !1), (w = !1), (L = !1), (R = !1), (N = !1), (x = !1), S.setAlpha(0), S.fadeAnimation(1), S.runAnim(IDLE), this.resetBallPosition(), this.sortDepth(o, u);
         }),
         (this._onEnd = function () {
@@ -697,22 +741,35 @@ function CGame(e) {
             // console.log(e.y > BALL_OUT_Y, e.x > BACK_WALL_GOAL_SIZE.width, Math.ceil(e.x)-2, Math.ceil(e.x)+2, exVal < -BACK_WALL_GOAL_SIZE.width,(E = TIME_RESET_AFTER_BALL_OUT)), 
             // console.log('resetPoleCollision');
             // if(w = !0){
-                if(e.x < -DEFENDER_GOAL_SIZE.width && (w = !0)) {
-                    console.log('pos--', e);
+                if(e.x < -DEFENDER_GOAL_SIZE.width) {
+                    // console.log('pos--', e, DEFENDER_GOAL_SIZE.width);
                     p = 9;
                     
-                    this.calculateScore(), playSound("goal", 1, 0);
+                    this.areaGoal()
+                    //  playSound("goal", 1, 0);
+                    // setTimeout(()=>{
+                        // var e = AREAS_INFO[p].value || AREAS_INFO[p].probability;
+                        // console.log(p, 'p', e);
+                        // var e = AREAS_INFO[p].probability,
+                        //  var   t = MAX_PERCENT_PROBABILITY - e,
+                            // n = MAX_PERCENT_PROBABILITY - t;
+                        // this.addScore(n * g, n), (g += MULTIPLIER_STEP);
+
+                    // })
                 }
                 if(exVal < -BACK_WALL_GOAL_SIZE.width && (w = !0)) {
                     console.log('pos--', e);
                     p = 6;
                     this.resetPoleCollision();
                     this.calculateScore(), playSound("goal", 1, 0);
+                    alert('d')
                 } else if( (e.y > BALL_OUT_Y || e.x > BACK_WALL_GOAL_SIZE.width || e.x < -BACK_WALL_GOAL_SIZE.width) &&
                 ((w = !0))){
                     console.log(exVal, '<', -BACK_WALL_GOAL_SIZE.width );
                     console.log('dfsdf');
                     t.createAnimText(TEXT_BALL_OUT, 90, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), playSound("ball_saved", 1, 0), (g = 1), (H = 0);
+                    alert('else')
+
     
                 }
             // }
@@ -761,6 +818,7 @@ function CGame(e) {
         (AREAS_INFO = e.area_goal_prop),
         (LEVEL_STATUS = e.Level_status),
         (GK_ODD = e.gkOdd),
+        (GUARD_HIT = e.guardHit),
         (GOAL_KEEPER_VISIBLE = e.goalKeeperVisible),
         (NUM_OF_PENALTY = e.num_of_penalty),
         (MULTIPLIER_STEP = e.multiplier_step),
