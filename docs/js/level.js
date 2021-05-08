@@ -153,7 +153,7 @@ var sendOrderObj = [{
     "data": {
         "orderId": 75506,
         "nextRoundsConfig": {
-            "roundsNum": 2,
+            "roundsNum": 1,
             "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
             "gkOdd": 1.2,
             "colorConfig": [
@@ -194,9 +194,9 @@ var sendOrderObj = [{
             "quickBet": "5,10,50,100,500"
         },
         "finishFlag": "N",
-        "hitOdds": 0.5,
+        "hitOdds": 3,
         "currentWinAmount": 500.00,
-        "gkHit": "Y",
+        "gkHit": "N",
         "guardHit": "Y",
         "colorHit": "W"
     },
@@ -248,9 +248,9 @@ var sendOrderObj = [{
             "quickBet": "5,10,50,100,500"
         },
         "finishFlag": "N",
-        "hitOdds": 3,
+        "hitOdds": 0.5,
         "currentWinAmount": 500.00,
-        "gkHit": "N",
+        "gkHit": "Y",
         "guardHit": "N",
         "colorHit": "W"
     },
@@ -261,7 +261,7 @@ var sendOrderObj = [{
     "data": {
         "orderId": 75506,
         "nextRoundsConfig": {
-            "roundsNum": 2,
+            "roundsNum": 3,
             "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
             "gkOdd": 3,
             "colorConfig": [
@@ -304,8 +304,8 @@ var sendOrderObj = [{
         "finishFlag": "N",
         "hitOdds": 8,
         "currentWinAmount": 500.00,
-        "gkHit": "Y",
-        "guardHit": "N",
+        "gkHit": "N",
+        "guardHit": "Y",
         "colorHit": "W"
     },
     "message": "Success"

@@ -197,6 +197,7 @@
 
                 var gkHit = soObj.data.gkHit == "N"? 0: 100;
                 var config = soObj.data.nextRoundsConfig.colorConfig;
+                var roundsNum = soObj.data.nextRoundsConfig.roundsNum;
                 var hitOdds = soObj.data.hitOdds;
                 var guardHit = soObj.data.guardHit;
                 // console.log(hitOdds , 'hitOdds');
@@ -244,11 +245,12 @@
                     }
                     localStorage.setItem('winAmt', winAmt);
                 }
+                // && soObj.data.gkHit == 'Y'? true: false
                 var oMain = new CMain({
-                    goalKeeperVisible: soObj.data.gkHit == 'Y'? true: false, // toggle visibility
+                    goalKeeperVisible: !!(roundsNum > 1), // toggle visibility
                     Level_status:status,
                     area_goal_prop: sampleCode,
-                      
+                    roundsNum: roundsNum,
                     gkOdd: hitOdds,
                     guardHit: !!(guardHit == 'Y'),
                     area_goal: [

@@ -279,7 +279,8 @@ function CGame(e) {
             (def = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
             (def.x = 320),
                 (def.y = 30),
-            s.addChild(def), 
+            ROUNDS_NUM >= 3 && s.addChild(def), 
+            console.log(GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE'),
             
         // createjs.Ticker.addEventListener("tick", stage);
             //  (n = createBitmap(s_oSpriteLibrary.getSprite("odds-defender")),undefined, undefined, 940, 01),
@@ -377,7 +378,7 @@ function CGame(e) {
                 
                 var indexVal = AREAS_INFO.findIndex(job => job.value == GK_ODD);
 
-                // console.log('indexVal => ', indexVal);
+                console.log('indexVal => ',  GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
                 arr = [
                     {"point":0,"r":{"x":719.9894514767932,"y":475.45590433482806},"l":{"x":423.5056258790436,"y":44.9626307922272} , color: 'O', pos: 'LEFT'},
                     
@@ -413,46 +414,53 @@ function CGame(e) {
                     }
                 }
                 // indexVal = 3;
-                pos = arr[indexVal].pos;
-                console.log(GUARD_HIT, 'GUARD_HIT');
+                if(ROUNDS_NUM >= 3){
 
-                if(pos == 'LEFT' && !GUARD_HIT){
-                    createjs.Tween.get(def, {loop: false})
-          .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
-       
-        createjs.Ticker.setFPS(60);
-    } else if(pos == 'RIGHT'){
-                    createjs.Tween.get(def, {loop: false})
-                    .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
-                  createjs.Ticker.setFPS(60);
+                    pos = arr[indexVal].pos;
+                    console.log(GUARD_HIT, 'GUARD_HIT');
+                    if(!GUARD_HIT){
+                        
+                        if(pos == 'LEFT'){
+                        createjs.Tween.get(def, {loop: false})
+                        .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+                        
+                        createjs.Ticker.setFPS(60);
+                    } else if(pos == 'RIGHT'){
+                        createjs.Tween.get(def, {loop: false})
+                        .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                        createjs.Ticker.setFPS(60);
+                    }
                 }
+                if(GUARD_HIT){
 
-                if(pos == 'LEFT' && GUARD_HIT){
-                    createjs.Tween.get(def, {loop: false})
-                    // .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
-                  //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
-                  //   .to({alpha: 0, y: 125}, 100)
-                  //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-                    .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
-                  createjs.Ticker.setFPS(60);
-                } else if(pos == 'RIGHT'){
-                    createjs.Tween.get(def, {loop: false})
-          .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
-        //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
-        //   .to({alpha: 0, y: 125}, 100)
-        //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-        //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
-        createjs.Ticker.setFPS(60);
-                }else{
-        //             createjs.Tween.get(def, {loop: false})
-        //   .to({x: 1000}, 1000, createjs.Ease.getPowInOut(4))
-        // //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
-        // //   .to({alpha: 0, y: 125}, 100)
-        // //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-        //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
-        // createjs.Ticker.setFPS(60);
-                }
-
+                    if(pos == 'LEFT'){
+                        createjs.Tween.get(def, {loop: false})
+                        // .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+                      //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+                      //   .to({alpha: 0, y: 125}, 100)
+                      //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+                      .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                      createjs.Ticker.setFPS(60);
+                    } else if(pos == 'RIGHT'){
+                        createjs.Tween.get(def, {loop: false})
+              .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
+              //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+              //   .to({alpha: 0, y: 125}, 100)
+              //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+              //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+              createjs.Ticker.setFPS(60);
+            }else{
+                //             createjs.Tween.get(def, {loop: false})
+                //   .to({x: 1000}, 1000, createjs.Ease.getPowInOut(4))
+                // //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
+                // //   .to({alpha: 0, y: 125}, 100)
+                // //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
+                //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                // createjs.Ticker.setFPS(60);
+            }
+        }
+    }
+        
                 r = arr[indexVal].r;
                 l = arr[indexVal].l;
                 // console.log(r, l, FORCE_RATE, arr[indexVal].point, 'position => ', position);
@@ -484,7 +492,7 @@ function CGame(e) {
         (this.addScore = function (e, n) {
             e = GK_ODD;
             (_ += e), t.refreshTextScoreBoard(_, g , n, !0);
-            $(s_oMain).trigger("goal_score", GK_ODD)
+            $(s_oMain).trigger("goal_score", GK_ODD);
 
            //// console.log(e, _, 'score', p);
         }),
@@ -503,13 +511,15 @@ function CGame(e) {
         (this.areaGoal = function () {
             ////// console.log(b, L, R, 'areaGoal');
             var pos = o.getPhysics().position;
-            console.log(pos, 'position, area Goal');
+            console.log(pos, 'position, area Goal', GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
             if(!GOAL_KEEPER_VISIBLE)
             R = true;
             b || L  || (R ? ((b = !0), (E = TIME_RESET_AFTER_GOAL), this.textGoal(), this.calculateScore(), playSound("goal", 1, 0)) : this.goalKeeperSave());
         }),
         (this.goalKeeperSave = function () {
             (L = !0), (E = TIME_RESET_AFTER_SAVE), t.createAnimText(TEXT_SAVED, 80, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), playSound("ball_saved", 1, 0), this.rejectBall(), (g = 1), (H = 0);
+            $(s_oMain).trigger("goal_score", GK_ODD);
+
         }),
         (this.rejectBall = function () {
             switch ((o.getPhysics().velocity.negate(o.getPhysics().velocity), p)) {
@@ -673,11 +683,17 @@ function CGame(e) {
         (this.textGoal = function () {
             if (H < TEXT_CONGRATULATION.length) {
                 var e = !1;
-                H >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(TEXT_CONGRATULATION[H], TEXT_SIZE[H], e, TEXT_COLOR, TEXT_COLOR_STROKE), H++;
+                text = GUARD_HIT && ROUNDS_NUM >= 3? TEXT_SAVED : TEXT_CONGRATULATION[H];
+                $(s_oMain).trigger("goal_score", GK_ODD);
+
+                H >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(text, TEXT_SIZE[H], e, TEXT_COLOR, TEXT_COLOR_STROKE), H++;
             } else {
                 var e = !1,
-                    n = Math.floor(Math.random() * (TEXT_CONGRATULATION.length - 1)) + 1;
-                n >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(TEXT_CONGRATULATION[n], TEXT_SIZE[n], e, TEXT_COLOR, TEXT_COLOR_STROKE);
+                    n =  Math.floor(Math.random() * (TEXT_CONGRATULATION.length - 1)) + 1;
+                    text = GUARD_HIT && ROUNDS_NUM >= 3 ? TEXT_SAVED : TEXT_CONGRATULATION[n];
+                $(s_oMain).trigger("goal_score", GK_ODD);
+
+                n >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(text, TEXT_SIZE[n], e, TEXT_COLOR, TEXT_COLOR_STROKE);
             }
         }),
         (this.goalAnimation = function (e) {
@@ -741,12 +757,12 @@ function CGame(e) {
             // console.log(e.y > BALL_OUT_Y, e.x > BACK_WALL_GOAL_SIZE.width, Math.ceil(e.x)-2, Math.ceil(e.x)+2, exVal < -BACK_WALL_GOAL_SIZE.width,(E = TIME_RESET_AFTER_BALL_OUT)), 
             // console.log('resetPoleCollision');
             // if(w = !0){
-                if(e.x < -DEFENDER_GOAL_SIZE.width) {
+                if(e.x < -DEFENDER_GOAL_SIZE.width && ROUNDS_NUM >= 3) {
                     // console.log('pos--', e, DEFENDER_GOAL_SIZE.width);
                     p = 9;
                     
-                    this.areaGoal()
-                    //  playSound("goal", 1, 0);
+                    this.calculateScore()
+                     playSound("goal", 1, 0);
                     // setTimeout(()=>{
                         // var e = AREAS_INFO[p].value || AREAS_INFO[p].probability;
                         // console.log(p, 'p', e);
@@ -816,6 +832,7 @@ function CGame(e) {
         }),
         (s_oGame = this),
         (AREAS_INFO = e.area_goal_prop),
+        (ROUNDS_NUM = e.roundsNum),
         (LEVEL_STATUS = e.Level_status),
         (GK_ODD = e.gkOdd),
         (GUARD_HIT = e.guardHit),
