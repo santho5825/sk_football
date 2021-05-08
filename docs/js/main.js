@@ -1,4 +1,5 @@
 var LEVEL_STATUS;
+var goal_score = 0;
 function CGfxButton(e, t, n, i) {
     var o, a, s, r, l, c, d, h, u, _ = !1;
     return (
@@ -209,16 +210,21 @@ function CPlayer(e, t, n) {
                 });
         }),
         (this.viewCharacter = function (e) {
+            // // console.log(e, 'viewchar');
+
             a[e].visible = !0;
         }),
         (this.hideCharacter = function (e) {
+            // // console.log(e, 'hidechar');
             a[e].visible = !1;
         }),
         (this.getFrame = function () {
+            // // console.log(r, 'r');
             return r;
         }),
         (this.animPlayer = function () {
             if (((l += s_iTimeElaps), l > BUFFER_ANIM_PLAYER)) {
+                // // console.error(r, 'animPlayer')
                 if ((this.hideCharacter(r), !(NUM_SPRITE_PLAYER > r + 1))) return this.viewCharacter(r), (r = 0), (l = 0), !1;
                 this.viewCharacter(r + 1), r++, o.updateCache(), (l = 0);
             }
@@ -227,6 +233,13 @@ function CPlayer(e, t, n) {
         this._init(e, t),
         this
     );
+}
+function call_goal_score(val){
+    if(!goal_score){
+        goal_score = val;
+        $(s_oMain).trigger("goal_score", val);
+        
+    }
 }
 function CGame(e) {
     var goalCount = 0;
@@ -276,11 +289,9 @@ function CGame(e) {
             (n.x = 998),
                 (n.y = 45),
             s.addChild(n), 
-            (def = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
-            (def.x = 320),
-                (def.y = 30),
-            ROUNDS_NUM >= 3 && s.addChild(def), 
-            console.log(GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE'),
+           
+            
+            // // console.log(GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE'),
             
         // createjs.Ticker.addEventListener("tick", stage);
             //  (n = createBitmap(s_oSpriteLibrary.getSprite("odds-defender")),undefined, undefined, 940, 01),
@@ -292,8 +303,13 @@ function CGame(e) {
             //     (n.y = 45),
             // s.addChild(n),
           
-        (S = new CGoalKeeper(CANVAS_WIDTH_HALF - 100, CANVAS_HEIGHT_HALF - 225, s)), T.push(S);
-        ////// console.log(S, T, 'goalKeeper');
+        (S = new CGoalKeeper(CANVAS_WIDTH_HALF - 100, CANVAS_HEIGHT_HALF - 225, s)), T.push(S),
+        (def = createBitmap(s_oSpriteLibrary.getSprite("defender")),undefined, undefined, 300, 867),
+        (def.x = GUARD_POS == 'left' ? 320: 950),
+                (def.y = 60),
+                // console.log(ROUNDS_NUM, 'ROUNDS_NUM');
+            ROUNDS_NUM >= 3 && s.addChild(def);
+        ////// // console.log(S, T, 'goalKeeper');
         var r = s_oSpriteLibrary.getSprite("ball");
         (o = new CBall(0, 0, r, i.ballBody(), s)),
             T.push(o),
@@ -358,7 +374,7 @@ function CGame(e) {
         }),
         (this.onPressUp = function () {
             if (!y) {
-                // console.log(JSON.stringify({'point': 0, 'r':r, 'l':l}), l, FORCE_RATE, 'original' ,'GK_ODD => ', GK_ODD);
+                // // console.log(JSON.stringify({'point': 0, 'r':r, 'l':l}), l, FORCE_RATE, 'original' ,'GK_ODD => ', GK_ODD);
                 var position = '';
 
                 if(l){
@@ -374,11 +390,11 @@ function CGame(e) {
 
                 }
 
-                // console.log(l.x > 620 && l.x < 750, l.x > 620, l.x < 750);
+                // // console.log(l.x > 620 && l.x < 750, l.x > 620, l.x < 750);
                 
-                var indexVal = AREAS_INFO.findIndex(job => job.value == GK_ODD);
+                var indexVal = AREAS_INFO.findIndex(job => job.value == HIT_ODD);
 
-                console.log('indexVal => ',  GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
+                // // console.log('indexVal => ',  GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
                 arr = [
                     {"point":0,"r":{"x":719.9894514767932,"y":475.45590433482806},"l":{"x":423.5056258790436,"y":44.9626307922272} , color: 'O', pos: 'LEFT'},
                     
@@ -395,7 +411,7 @@ function CGame(e) {
 
                     {"point":5,"r":{"x":694.1666666666666,"y":446.7563527653213},"l":{"x":870.1441631504922,"y":220.02989536621823}, color: 'B', pos: 'RIGHT'},
 
-                   {"point":6,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":521.0583684950773,"y":60.20926756352765} , color: 'W', pos: 'MIDDLE'},
+                   {"point":6,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":521.0583684950773,"y":100.20926756352765} , color: 'W', pos: 'MIDDLE'},
                    {"point":7,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":516.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'LEFT'},
                     {"point":8,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":918.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'RIGHT'}, 
                     {"point":9,"r":{"x":713.2946554149086,"y":457.2795216741405},"l":{"x":541.0583684950773,"y":260.20926756352765} , color: 'W', pos: 'RIGHT'},
@@ -404,20 +420,20 @@ function CGame(e) {
 
             ];
             var pos = o.getPhysics().position;
-            console.log(pos, 'position');
+            // // console.log(pos, 'position');
             if(indexVal > -1){
                 var indVal = -1;
                 if(arr[indexVal].pos !== position){
-                    indVal = arr.findIndex((job, ind) => AREAS_INFO[ind] && AREAS_INFO[ind].value == GK_ODD && job.pos == position);
+                    indVal = arr.findIndex((job, ind) => AREAS_INFO[ind] && AREAS_INFO[ind].value == HIT_ODD && job.pos == position);
                     if(indVal > -1){
                         indexVal = indVal;
                     }
                 }
-                // indexVal = 3;
+                // indexVal = 5;
                 if(ROUNDS_NUM >= 3){
 
                     pos = arr[indexVal].pos;
-                    console.log(GUARD_HIT, 'GUARD_HIT');
+                    // // console.log(GUARD_HIT, 'GUARD_HIT');
                     if(!GUARD_HIT){
                         
                         if(pos == 'LEFT'){
@@ -427,7 +443,7 @@ function CGame(e) {
                         createjs.Ticker.setFPS(60);
                     } else if(pos == 'RIGHT'){
                         createjs.Tween.get(def, {loop: false})
-                        .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                        .to({x: 270}, 800, createjs.Ease.getPowInOut(2));
                         createjs.Ticker.setFPS(60);
                     }
                 }
@@ -439,37 +455,42 @@ function CGame(e) {
                       //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
                       //   .to({alpha: 0, y: 125}, 100)
                       //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-                      .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+                      .to({x: 270}, 800, createjs.Ease.getPowInOut(2));
                       createjs.Ticker.setFPS(60);
                     } else if(pos == 'RIGHT'){
                         createjs.Tween.get(def, {loop: false})
-              .to({x: 950}, 950, createjs.Ease.getPowInOut(4))
-              //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
-              //   .to({alpha: 0, y: 125}, 100)
-              //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-              //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
+              .to({x: 970}, 980, createjs.Ease.getPowInOut(4))
+             
               createjs.Ticker.setFPS(60);
-            }else{
-                //             createjs.Tween.get(def, {loop: false})
-                //   .to({x: 1000}, 1000, createjs.Ease.getPowInOut(4))
-                // //   .to({alpha: 0, y: 75}, 500, createjs.Ease.getPowInOut(2))
-                // //   .to({alpha: 0, y: 125}, 100)
-                // //   .to({alpha: 1, y: 100}, 500, createjs.Ease.getPowInOut(2))
-                //   .to({x: 240}, 800, createjs.Ease.getPowInOut(2));
-                // createjs.Ticker.setFPS(60);
+            }else if(indexVal == 6 && pos == 'MIDDLE'){
+                createjs.Tween.get(def, {loop: false})
+              .to({x: 355, y: 20}, 355, createjs.Ease.getPowInOut(1))
+              .to({x: 405, y: 40}, 355, createjs.Ease.getPowInOut(4))
+             
+              createjs.Ticker.setFPS(100);
+            }
+            else if(indexVal == 4 && pos == 'MIDDLE'){
+                createjs.Tween.get(def, {loop: false})
+              .to({x: 607, y: 60}, 355, createjs.Ease.getPowInOut(1))
+              .to({x: 580, y: 150}, 355, createjs.Ease.getPowInOut(1))
+              .to({x: 580, y: 60}, 355, createjs.Ease.getPowInOut(1))
+            //   .to({x: 607, y: 60}, 355, createjs.Ease.getPowInOut(1))
+             
+              createjs.Ticker.setFPS(100);
             }
         }
     }
-        
+                p = indexVal;
                 r = arr[indexVal].r;
                 l = arr[indexVal].l;
-                // console.log(r, l, FORCE_RATE, arr[indexVal].point, 'position => ', position);
+    
+                // // console.log(r, l, FORCE_RATE, arr[indexVal].point, 'position => ', position);
             }
                 var e = Math.ceil(distanceV2(r, l)) * FORCE_RATE;
                 e > FORCE_MAX && (e = FORCE_MAX), P > 1e3 && (P = 1e3);
                 var t = new CVector2(r.x - l.x, r.y - l.y);
                 t.scalarProduct(e);
-                console.log(t.getX(), t.getY(), r.x - l.x, (r.x - l.x)*e, r.y - l.y, (r.y - l.y)* e, e,'t');
+                // // console.log(t.getX(), t.getY(), r.x - l.x, (r.x - l.x)*e, r.y - l.y, (r.y - l.y)* e, e,'t');
                 var n = t.length();
                 if (n > HIT_BALL_MIN_FORCE) {
                     n > HIT_BALL_MAX_FORCE && (t.normalize(), t.scalarProduct(HIT_BALL_MAX_FORCE)), (O = !0), d.setVisible(!0);
@@ -477,7 +498,7 @@ function CGame(e) {
                     i > MAX_FORCE_Y ? (i = MAX_FORCE_Y) : MIN_FORCE_Y > i && (i = MIN_FORCE_Y), A.set(-t.getX() * FORCE_MULTIPLIER_AXIS.x, i, t.getY() * FORCE_MULTIPLIER_AXIS.z), (R = s_oGame.goalProbability());
                 } else 
                 (l.x = 0), (l.y = 0);
-               //// console.log("TIRO NULLO");
+               //// // console.log("TIRO NULLO");
             }
         }),
         (this.refreshShadowCast = function (e, t, n) {
@@ -490,11 +511,22 @@ function CGame(e) {
             e.scaleShadow(l), 0 > l || (e.setAlphaByHeight(r), e.setPositionShadow(s.x, s.y));
         }),
         (this.addScore = function (e, n) {
-            e = GK_ODD;
+            e = HIT_ODD;
             (_ += e), t.refreshTextScoreBoard(_, g , n, !0);
-            $(s_oMain).trigger("goal_score", GK_ODD);
+            // $(s_oMain).trigger("goal_score", HIT_ODD);
+            this.trigger_goal_score(HIT_ODD, GK_HIT, GK_ODD);
 
-           //// console.log(e, _, 'score', p);
+           //// // console.log(e, _, 'score', p);
+        }),
+        (this.trigger_goal_score = function(){
+            var scoreValue = HIT_ODD;
+            if(GK_HIT && !GUARD_HIT){
+                scoreValue = GK_ODD;
+            } else if(!GK_HIT && GUARD_HIT){
+                scoreValue = 0.2;
+            }
+            call_goal_score(scoreValue);
+
         }),
         (this.getLevel = function () {
             return M;
@@ -509,16 +541,19 @@ function CGame(e) {
             playSound("ball_collision", 1, 0);
         }),
         (this.areaGoal = function () {
-            ////// console.log(b, L, R, 'areaGoal');
+            ////// // console.log(b, L, R, 'areaGoal');
             var pos = o.getPhysics().position;
-            console.log(pos, 'position, area Goal', GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
-            if(!GOAL_KEEPER_VISIBLE)
+            // // console.log(pos, 'position, area Goal', GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
+            if(!GOAL_KEEPER_VISIBLE || !GK_HIT || !GUARD_HIT )
             R = true;
             b || L  || (R ? ((b = !0), (E = TIME_RESET_AFTER_GOAL), this.textGoal(), this.calculateScore(), playSound("goal", 1, 0)) : this.goalKeeperSave());
         }),
         (this.goalKeeperSave = function () {
+            // console.log(TEXT_SAVED);
             (L = !0), (E = TIME_RESET_AFTER_SAVE), t.createAnimText(TEXT_SAVED, 80, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), playSound("ball_saved", 1, 0), this.rejectBall(), (g = 1), (H = 0);
-            $(s_oMain).trigger("goal_score", GK_ODD);
+            // $(s_oMain).trigger("goal_score", HIT_ODD);
+            this.trigger_goal_score(HIT_ODD);
+
 
         }),
         (this.rejectBall = function () {
@@ -532,34 +567,35 @@ function CGame(e) {
         }),
         (this.calculateScore = function () {
             var e = AREAS_INFO[p].value || AREAS_INFO[p].probability;
-            console.log(p, 'p', e);
+            // // console.log(p, 'p', e);
             // var e = AREAS_INFO[p].probability,
              var   t = MAX_PERCENT_PROBABILITY - e,
                 n = MAX_PERCENT_PROBABILITY - t;
             this.addScore(n * g, n), (g += MULTIPLIER_STEP);
-           console.error('goal awesome fdslkfdsknfkdsnfkdsbf')
+           // // console.error('goal awesome fdslkfdsknfkdsnfkdsbf')
 
         }),
         (this.goalProbability = function () {
-            p = -1;
-            ////// console.log(GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
+            // p = -1;
+            ////// // console.log(GOAL_KEEPER_VISIBLE, 'GOAL_KEEPER_VISIBLE');
             if(!GOAL_KEEPER_VISIBLE){
-               //// console.log(CALCULATE_PROBABILITY.length, 'CALCULATE_PROBABILITY.length');
+               //// // console.log(CALCULATE_PROBABILITY.length, 'CALCULATE_PROBABILITY.length');
                 if(CALCULATE_PROBABILITY.length == 15) {
                     // CALCULATE_PROBABILITY.push( { xMax: 11, xMin: -12, zMax: 7, zMin: 0 },
                     // { xMax: 11, xMin: -12, zMax: 8, zMin: 0 },
                     // { xMax: 11, xMin: -13, zMax: 8, zMin: 0 },
                     // { xMax: 11, xMin: -13, zMax: 8, zMin: 5 });
                 }
-               //// console.log(CALCULATE_PROBABILITY.length, 'CALCULATE_PROBABILITY');
+               //// // console.log(CALCULATE_PROBABILITY.length, 'CALCULATE_PROBABILITY');
 
                 for (var e = 0; e < CALCULATE_PROBABILITY.length; e++){
-                    A.z < CALCULATE_PROBABILITY[e].zMax && A.z > CALCULATE_PROBABILITY[e].zMin && A.x < CALCULATE_PROBABILITY[e].xMax && A.x > CALCULATE_PROBABILITY[e].xMin && (p = e);
+                    A.z < CALCULATE_PROBABILITY[e].zMax && A.z > CALCULATE_PROBABILITY[e].zMin && A.x < CALCULATE_PROBABILITY[e].xMax && A.x > CALCULATE_PROBABILITY[e].xMin;
+                    // && (p = e);
                     if(p > -1){
-                       //// console.log(CALCULATE_PROBABILITY[p], AREAS_INFO[p])
-                       //// console.log('answer => ',A.z ,' < ', CALCULATE_PROBABILITY[p].zMax,A.z < CALCULATE_PROBABILITY[p].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[p].zMin, A.z > CALCULATE_PROBABILITY[p].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[p].xMax, A.x < CALCULATE_PROBABILITY[p].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[p].xMin,A.x > CALCULATE_PROBABILITY[p].xMin,' && ');
+                       //// // console.log(CALCULATE_PROBABILITY[p], AREAS_INFO[p])
+                       //// // console.log('answer => ',A.z ,' < ', CALCULATE_PROBABILITY[p].zMax,A.z < CALCULATE_PROBABILITY[p].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[p].zMin, A.z > CALCULATE_PROBABILITY[p].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[p].xMax, A.x < CALCULATE_PROBABILITY[p].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[p].xMin,A.x > CALCULATE_PROBABILITY[p].xMin,' && ');
                         for (var e = 0; e < CALCULATE_PROBABILITY.length; e++){ 
-                           //// console.error(A.z ,' < ', CALCULATE_PROBABILITY[e].zMax,A.z < CALCULATE_PROBABILITY[e].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[e].zMin, A.z > CALCULATE_PROBABILITY[e].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[e].xMax, A.x < CALCULATE_PROBABILITY[e].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[e].xMin,A.x > CALCULATE_PROBABILITY[e].xMin,' && ');
+                           //// // console.error(A.z ,' < ', CALCULATE_PROBABILITY[e].zMax,A.z < CALCULATE_PROBABILITY[e].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[e].zMin, A.z > CALCULATE_PROBABILITY[e].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[e].xMax, A.x < CALCULATE_PROBABILITY[e].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[e].xMin,A.x > CALCULATE_PROBABILITY[e].xMin,' && ');
                         }
                         return false;
                     }
@@ -575,34 +611,38 @@ function CGame(e) {
                     }
             
             } else{
-                for (var e = 0; e < CALCULATE_PROBABILITY.length; e++) A.z < CALCULATE_PROBABILITY[e].zMax && A.z > CALCULATE_PROBABILITY[e].zMin && A.x < CALCULATE_PROBABILITY[e].xMax && A.x > CALCULATE_PROBABILITY[e].xMin && (p = e);
+                for (var e = 0; e < CALCULATE_PROBABILITY.length; e++) A.z < CALCULATE_PROBABILITY[e].zMax && A.z > CALCULATE_PROBABILITY[e].zMin && A.x < CALCULATE_PROBABILITY[e].xMax && A.x > CALCULATE_PROBABILITY[e].xMin; 
+                // && (p = e);
                 
             }
-           //// console.warn('goal started fdslkfdsknfkdsnfkdsbf')
-           //// console.log(A, 'goalProbability', p, e);
+            // p = 
+           //// // console.warn('goal started fdslkfdsknfkdsnfkdsbf')
+           //// // console.log(A, 'goalProbability', p, e);
             if(p == -1){
                 for (var e = 0; e < CALCULATE_PROBABILITY.length; e++){ 
-                   //// console.error(A.z ,' < ', CALCULATE_PROBABILITY[e].zMax,A.z < CALCULATE_PROBABILITY[e].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[e].zMin, A.z > CALCULATE_PROBABILITY[e].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[e].xMax, A.x < CALCULATE_PROBABILITY[e].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[e].xMin,A.x > CALCULATE_PROBABILITY[e].xMin,' && ');
+                   //// // console.error(A.z ,' < ', CALCULATE_PROBABILITY[e].zMax,A.z < CALCULATE_PROBABILITY[e].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[e].zMin, A.z > CALCULATE_PROBABILITY[e].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[e].xMax, A.x < CALCULATE_PROBABILITY[e].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[e].xMin,A.x > CALCULATE_PROBABILITY[e].xMin,' && ');
                 }
-               //// console.error(CALCULATE_PROBABILITY)
+               //// // console.error(CALCULATE_PROBABILITY)
             } else{
-               //// console.log(CALCULATE_PROBABILITY[p], AREAS_INFO[p])
-               //// console.log(A.z ,' < ', CALCULATE_PROBABILITY[p].zMax,A.z < CALCULATE_PROBABILITY[p].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[p].zMin, A.z > CALCULATE_PROBABILITY[p].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[p].xMax, A.x < CALCULATE_PROBABILITY[p].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[p].xMin,A.x > CALCULATE_PROBABILITY[p].xMin,' && ');
+               //// // console.log(CALCULATE_PROBABILITY[p], AREAS_INFO[p])
+               //// // console.log(A.z ,' < ', CALCULATE_PROBABILITY[p].zMax,A.z < CALCULATE_PROBABILITY[p].zMax,' && ' ,A.z,' > ',CALCULATE_PROBABILITY[p].zMin, A.z > CALCULATE_PROBABILITY[p].zMin,' && ' ,A.x,' < ',CALCULATE_PROBABILITY[p].xMax, A.x < CALCULATE_PROBABILITY[p].xMax,' && ',A.x,' > ',CALCULATE_PROBABILITY[p].xMin,A.x > CALCULATE_PROBABILITY[p].xMin,' && ');
             }
             if (-1 === p) return !1;
             for (var t = new Array(), e = 0; MAX_PERCENT_PROBABILITY > e; e++) t.push(!1);
             for (var e = 0; e < AREAS_INFO[p].probability; e++) t[e] = !0;
             var n = Math.floor(Math.random() * t.length);
-            ////// console.log(CALCULATE_PROBABILITY);
+            ////// // console.log(CALCULATE_PROBABILITY);
             return t[n];
         }),
         (this.addImpulseToBall = function (e) {
             if (!y && G === STATE_PLAY) {
                 var t = i.ballBody();
+                // console.log(t,'addImpulseToBall');
                 i.addImpulse(t, e), i.setElementAngularVelocity(t, { x: 0, y: 0, z: 0 }), (y = !0), o.setVisible(!0), a.setVisible(!1), this.chooseDirectionGoalKeeper(e), playSound("kick", 1, 0);
             }
         }),
         (this.chooseDirectionGoalKeeper = function (e) {
+            // console.log(R, p, 'p chooseDirectionGoalKeeper');
             if (R) {
                 var t = S.getAnimType();
                 switch (p) {
@@ -615,12 +655,33 @@ function CGame(e) {
                         this.chooseWrongDirGK(ANIM_GOAL_KEEPER_FAIL, t);
                 }
             } else
+            // console.log(e.x, GOAL_KEEPER_TOLLERANCE_LEFT, AREA_GOALS_ANIM[p]);
                 switch (p) {
                     case -1:
                         e.x < GOAL_KEEPER_TOLLERANCE_LEFT ? S.runAnim(LEFT) : e.y > GOAL_KEEPER_TOLLERANCE_RIGHT && S.runAnim(RIGHT);
                         break;
                     default:
-                        S.runAnim(AREA_GOALS_ANIM[p]);
+                        var direction = AREA_GOALS_ANIM[p];
+                        if(GK_HIT){
+
+                            if(p == 1){
+                                direction = CENTER_UP;
+                            }
+                            if(p == 2) {
+                                direction = RIGHT;
+                            }
+                            if(p == 3){
+                                direction = LEFT;
+                            } 
+                            if(p == 4){
+                                direction = CENTER_DOWN;
+                            }
+                            if(p == 5){
+                                direction = RIGHT;
+                            }
+                        }
+                        console.log('direction => ', p, AREA_GOALS_ANIM[direction], direction);
+                        S.runAnim(direction);
                 }
             C = !0;
         }),
@@ -683,21 +744,25 @@ function CGame(e) {
         (this.textGoal = function () {
             if (H < TEXT_CONGRATULATION.length) {
                 var e = !1;
-                text = GUARD_HIT && ROUNDS_NUM >= 3? TEXT_SAVED : TEXT_CONGRATULATION[H];
-                $(s_oMain).trigger("goal_score", GK_ODD);
+                text = (GK_HIT && ROUNDS_NUM > 1) || (GUARD_HIT && ROUNDS_NUM) >= 3? TEXT_SAVED : TEXT_CONGRATULATION[H];
+                var scoreVal = (GK_HIT && ROUNDS_NUM > 1) ? GK_ODD: (GUARD_HIT && ROUNDS_NUM) >= 3 ? HIT_ODD: HIT_ODD;
+                // $(s_oMain).trigger("goal_score", scoreVal);
+                this.trigger_goal_score(scoreVal);
+
 
                 H >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(text, TEXT_SIZE[H], e, TEXT_COLOR, TEXT_COLOR_STROKE), H++;
             } else {
                 var e = !1,
                     n =  Math.floor(Math.random() * (TEXT_CONGRATULATION.length - 1)) + 1;
                     text = GUARD_HIT && ROUNDS_NUM >= 3 ? TEXT_SAVED : TEXT_CONGRATULATION[n];
-                $(s_oMain).trigger("goal_score", GK_ODD);
+                // $(s_oMain).trigger("goal_score", HIT_ODD);
+                this.trigger_goal_score(HIT_ODD);
 
                 n >= TEXT_CONGRATULATION.length - 1 && (e = !0), t.createAnimText(text, TEXT_SIZE[n], e, TEXT_COLOR, TEXT_COLOR_STROKE);
             }
         }),
         (this.goalAnimation = function (e) {
-            console.log(e, 'goalAnimation');
+            // // console.log(e, 'goalAnimation');
             
             e > FORCE_BALL_DISPLAY_SHOCK[0].min && e < FORCE_BALL_DISPLAY_SHOCK[0].max
                 ? this.displayShock(INTENSITY_DISPLAY_SHOCK[0].time, INTENSITY_DISPLAY_SHOCK[0].x, INTENSITY_DISPLAY_SHOCK[0].y)
@@ -735,7 +800,7 @@ function CGame(e) {
                 });
         }),
         (this.resetScene = function () {
-            console.log('resetSccene');
+            // // console.log('resetSccene');
             (b = !1), (w = !1), (L = !1), (R = !1), (N = !1), (x = !1), S.setAlpha(0), S.fadeAnimation(1), S.runAnim(IDLE), this.resetBallPosition(), this.sortDepth(o, u);
         }),
         (this._onEnd = function () {
@@ -746,45 +811,45 @@ function CGame(e) {
         }),
         (this.ballOut = function () {
             if (!w && !b && !L) {
-                // console.log(w, b, L, 'balloiut');
+                // // console.log(w, b, L, 'balloiut');
                 var e = o.getPhysics().position;
                 var exVal = Math.ceil(e.x)-2;
             //     (e.y > BALL_OUT_Y || e.x > BACK_WALL_GOAL_SIZE.width || e.x < -BACK_WALL_GOAL_SIZE.width) &&
             // ((w = !0),  t.createAnimText(TEXT_BALL_OUT, 90, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), playSound("ball_saved", 1, 0), (g = 1), (H = 0)); 
 
 
-            // console.log(e.y,' > ',BALL_OUT_Y ,'|| ',e.x,' > ',BACK_WALL_GOAL_SIZE.width,' || ',exVal,' < ',-BACK_WALL_GOAL_SIZE.width),
-            // console.log(e.y > BALL_OUT_Y, e.x > BACK_WALL_GOAL_SIZE.width, Math.ceil(e.x)-2, Math.ceil(e.x)+2, exVal < -BACK_WALL_GOAL_SIZE.width,(E = TIME_RESET_AFTER_BALL_OUT)), 
-            // console.log('resetPoleCollision');
+            // // console.log(e.y,' > ',BALL_OUT_Y ,'|| ',e.x,' > ',BACK_WALL_GOAL_SIZE.width,' || ',exVal,' < ',-BACK_WALL_GOAL_SIZE.width),
+            // // console.log(e.y > BALL_OUT_Y, e.x > BACK_WALL_GOAL_SIZE.width, Math.ceil(e.x)-2, Math.ceil(e.x)+2, exVal < -BACK_WALL_GOAL_SIZE.width,(E = TIME_RESET_AFTER_BALL_OUT)), 
+            // // console.log('resetPoleCollision');
             // if(w = !0){
-                if(e.x < -DEFENDER_GOAL_SIZE.width && ROUNDS_NUM >= 3) {
-                    // console.log('pos--', e, DEFENDER_GOAL_SIZE.width);
-                    p = 9;
+                // if(e.x < -DEFENDER_GOAL_SIZE.width && ROUNDS_NUM >= 3 && (w = !0)) {
+                    // // console.log('pos--', e, DEFENDER_GOAL_SIZE.width);
+                    // p = 9;
                     
-                    this.calculateScore()
-                     playSound("goal", 1, 0);
+                    // this.calculateScore()
+                    //  playSound("goal", 1, 0);
                     // setTimeout(()=>{
                         // var e = AREAS_INFO[p].value || AREAS_INFO[p].probability;
-                        // console.log(p, 'p', e);
+                        // // console.log(p, 'p', e);
                         // var e = AREAS_INFO[p].probability,
                         //  var   t = MAX_PERCENT_PROBABILITY - e,
                             // n = MAX_PERCENT_PROBABILITY - t;
                         // this.addScore(n * g, n), (g += MULTIPLIER_STEP);
 
                     // })
-                }
+                // }
                 if(exVal < -BACK_WALL_GOAL_SIZE.width && (w = !0)) {
-                    console.log('pos--', e);
+                    // // console.log('pos--', e);
                     p = 6;
                     this.resetPoleCollision();
                     this.calculateScore(), playSound("goal", 1, 0);
-                    alert('d')
+                    // alert('d')
                 } else if( (e.y > BALL_OUT_Y || e.x > BACK_WALL_GOAL_SIZE.width || e.x < -BACK_WALL_GOAL_SIZE.width) &&
                 ((w = !0))){
-                    console.log(exVal, '<', -BACK_WALL_GOAL_SIZE.width );
-                    console.log('dfsdf');
+                    // // console.log(exVal, '<', -BACK_WALL_GOAL_SIZE.width );
+                    // // console.log('dfsdf');
                     t.createAnimText(TEXT_BALL_OUT, 90, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), playSound("ball_saved", 1, 0), (g = 1), (H = 0);
-                    alert('else')
+                    // alert('else')
 
     
                 }
@@ -800,9 +865,9 @@ function CGame(e) {
             } 
         }),
         (this.resetPoleCollision = function () {
-            console.log('resetPoleCollision');
-            console.log(f, s_iTimeElaps, b, L);
-            f > 0 ? (f -= s_iTimeElaps) : (b && L) || (t.createAnimText('ds', 80, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), (g = 1), (H = 0), playSound("ball_saved", 1, 0), this.endTurn(), (f = TIME_POLE_COLLISION_RESET));
+            // // console.log('resetPoleCollision');
+            // // console.log(f, s_iTimeElaps, b, L);
+            f > 0 ? (f -= s_iTimeElaps) : (b && L) || (t.createAnimText(TEXT_BALL_OUT, 80, !1, TEXT_COLOR_1, TEXT_COLOR_STROKE), (g = 1), (H = 0), playSound("ball_saved", 1, 0), this.endTurn(), (f = TIME_POLE_COLLISION_RESET));
         }),
         (this.handSwipeAnim = function () {
             h.isAnimate() || y || (m > 0 ? (m -= s_iTimeElaps) : (h.animAllSwipe(), h.setVisible(!0), (m = MS_TIME_SWIPE_START)));
@@ -832,10 +897,13 @@ function CGame(e) {
         }),
         (s_oGame = this),
         (AREAS_INFO = e.area_goal_prop),
+        (GUARD_POS = e.guardPos),
         (ROUNDS_NUM = e.roundsNum),
         (LEVEL_STATUS = e.Level_status),
+        (HIT_ODD = e.hitOdds),
         (GK_ODD = e.gkOdd),
         (GUARD_HIT = e.guardHit),
+        (GK_HIT = e.gkHit),
         (GOAL_KEEPER_VISIBLE = e.goalKeeperVisible),
         (NUM_OF_PENALTY = e.num_of_penalty),
         (MULTIPLIER_STEP = e.multiplier_step),
@@ -921,7 +989,7 @@ function CWinPanel(e) {
                     }),
                 $(s_oMain).trigger("save_score", e),
                 $(s_oMain).trigger("share_event", e);
-                ////// console.log(o.text, e, 'text score');
+                ////// // console.log(o.text, e, 'text score');
         }),
         (this._onContinue = function () {
             var e = this;
@@ -951,6 +1019,11 @@ function CToggle(e, t, n, i, o) {
         var d = { images: [n], frames: { width: n.width / 2, height: n.height, regX: n.width / 2 / 2, regY: n.height / 2 }, animations: { state_true: [0], state_false: [1] } },
             h = new createjs.SpriteSheet(d);
         (a = i), (l = createSprite(h, "state_" + a, n.width / 2 / 2, n.height / 2, n.width / 2, n.height)), (l.x = e), (l.y = t), l.stop(), s_bMobile || (l.cursor = "pointer"), c.addChild(l), this._initListener();
+
+        // (c = void 0 !== o ? o : s_oStage), (s = new Array()), (r = new Array());
+        // var d = { images: [n], frames: { width: n.width / 2, height: n.height, regX: n.width / 2 / 2, regY: n.height / 2 }, animations: { state_true: [0], state_false: [1] } },
+        //     h = new createjs.SpriteSheet(d);
+        // (a = i), (l = createSprite(h, "state_" + a, n.width / 2 / 2, n.height / 2, n.width / 2, n.height)), (l.x = e), (l.y = t), l.stop(), s_bMobile || (l.cursor = "pointer"), c.addChild(l), this._initListener();
     }),
         (this.unload = function () {
             l.off("mousedown", this.buttonDown), l.off("pressup", this.buttonRelease), c.removeChild(l);
@@ -1106,7 +1179,7 @@ function CGoalKeeper(e, t, n) {
         }),
         (this.hideFrame = function (e, t) {
             e[t].visible = !1;
-            ////// console.log(e,t, 'hideframe');
+            ////// // console.log(e,t, 'hideframe');
         }),
         (this.getDepthPos = function () {
             return GOAL_KEEPER_DEPTH_Y;
@@ -1169,7 +1242,7 @@ function CRollingScore() {
     );
 }
 function trace(e) {
-    ////// console.log(e);
+    ////// // console.log(e);
 }
 function isIOS() {
     for (var e = ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"]; e.length; ) if (navigator.platform === e.pop()) return (s_bIsIphone = !0), !0;
@@ -1502,7 +1575,7 @@ function CScoreBoard(e) {
             (d.x = e), (d.y = t);
         }),
         (this.refreshTextScore = function (e) {
-            ////// console.error(a, s, e, 'rolling');
+            ////// // console.error(a, s, e, 'rolling');
             c.rolling(a, s, e);
         }),
         (this.effectAddScore = function (e, t) {
@@ -1525,7 +1598,7 @@ function CInterface() {
         (this._init = function () {
             i = { x: 0, y: 0 };
             var c = s_oSpriteLibrary.getSprite("but_exit");
-            (t = { x: CANVAS_WIDTH - c.height / 2 + 100, y: c.height / 2 + 10 }), (a = new CGfxButton(t.x, t.y, c)), a.addEventListener(ON_MOUSE_UP, this._onExit, this);
+            (t = { x: CANVAS_WIDTH - c.height / 2 - 20, y: c.height / 2 + 10 }), (a = new CGfxButton(t.x, t.y, c)), a.addEventListener(ON_MOUSE_UP, this._onExit, this);
             var c = s_oSpriteLibrary.getSprite("but_pause");
             if (((n = { x: t.x - c.height + 500, y: t.y }), (s = new CGfxButton(n.x, n.y, c)), s.addEventListener(ON_MOUSE_UP, this.onButPauseRelease, this), DISABLE_SOUND_MOBILE === !1 || s_bMobile === !1)) {
                 var c = s_oSpriteLibrary.getSprite("audio_icon");
@@ -1538,7 +1611,7 @@ function CInterface() {
                 ENABLE_FULLSCREEN === !1 && (E = !1),
                 E &&
                     !inIframe() &&
-                    ((c = s_oSpriteLibrary.getSprite("but_fullscreen")), (o = { x: c.width / 4, y: c.height / 2 + 10 }), (r = new CToggle(o.x, o.y, c, !1, s_oStage)), r.addEventListener(ON_MOUSE_UP, this._onFullscreen, this)),
+                    ((c = s_oSpriteLibrary.getSprite("but_fullscreen")), (o = { x: c.width / 4 - 500, y: c.height / 2 + 10 }), (r = new CToggle(o.x, o.y, c, !1, s_oStage)), r.addEventListener(ON_MOUSE_UP, this._onFullscreen, this)),
                 (d = new CScoreBoard(s_oStage)),
                 (h = new CLaunchBoard(s_oStage)),
                 (u = new CHelpText(s_oStage)),
@@ -1737,7 +1810,7 @@ function CScenario() {
                     mul = (o == 0 || o == 2 ? 2: 8);
                     AREA_GOAL_PROPERTIES.width = o == 0 || o == 2 ? 2: 17;
                     (t = mulX[o]);
-                   //// console.log( '{ x :',t,',y:',FIRST_AREA_GOAL_POS.y, ',z:', n,'}', AREA_GOAL_PROPERTIES);
+                   //// // console.log( '{ x :',t,',y:',FIRST_AREA_GOAL_POS.y, ',z:', n,'}', AREA_GOAL_PROPERTIES);
                     s_oScenario.createAreaGoal({ x: t, y: FIRST_AREA_GOAL_POS.y, z: n }, AREA_GOAL_PROPERTIES, COLOR_AREA_GOAL[e], AREAS_INFO[e]);
                     e++;
                 } 
@@ -1768,12 +1841,12 @@ function CScenario() {
             if (
                 (t.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2),
                 d.transformAllPoints(new CANNON.Vec3(), t),
-               //// console.log(POLE_UP_SIZE),
+               //// // console.log(POLE_UP_SIZE),
                 h.addShape(c, new CANNON.Vec3(0.5 * POLE_UP_SIZE.height, 0, 0)),
                 h.addShape(c, new CANNON.Vec3(0.5 * -POLE_UP_SIZE.height, 0, 0)),
                 h.addShape(d, new CANNON.Vec3(0, 0, 0.5 * POLE_RIGHT_LEFT_SIZE.height)),
                 h.position.set(BACK_WALL_GOAL_POSITION.x, BACK_WALL_GOAL_POSITION.y - UP_WALL_GOAL_SIZE.depth, BACK_WALL_GOAL_POSITION.z),
-               //// console.log(BACK_WALL_GOAL_POSITION.x, BACK_WALL_GOAL_POSITION.y - UP_WALL_GOAL_SIZE.depth, BACK_WALL_GOAL_POSITION.z),
+               //// // console.log(BACK_WALL_GOAL_POSITION.x, BACK_WALL_GOAL_POSITION.y - UP_WALL_GOAL_SIZE.depth, BACK_WALL_GOAL_POSITION.z),
                 h.addEventListener("collide", function (e) {
                     s_oScenario.poleCollision();
                 }),
@@ -1785,9 +1858,9 @@ function CScenario() {
             }
         }),
         (this.createBackGoalWall = function () {
-           //// console.log('BACK_WALL_GOAL_SIZE => ',BACK_WALL_GOAL_SIZE, 'createBackGoalWall');
-           //// console.log('UP_WALL_GOAL_SIZE => ',UP_WALL_GOAL_SIZE.width, UP_WALL_GOAL_SIZE.depth, UP_WALL_GOAL_SIZE.height);
-           //// console.log('LEFT_RIGHT_WALL_GOAL_SIZE => ',LEFT_RIGHT_WALL_GOAL_SIZE.width, LEFT_RIGHT_WALL_GOAL_SIZE.depth, LEFT_RIGHT_WALL_GOAL_SIZE.height);
+           //// // console.log('BACK_WALL_GOAL_SIZE => ',BACK_WALL_GOAL_SIZE, 'createBackGoalWall');
+           //// // console.log('UP_WALL_GOAL_SIZE => ',UP_WALL_GOAL_SIZE.width, UP_WALL_GOAL_SIZE.depth, UP_WALL_GOAL_SIZE.height);
+           //// // console.log('LEFT_RIGHT_WALL_GOAL_SIZE => ',LEFT_RIGHT_WALL_GOAL_SIZE.width, LEFT_RIGHT_WALL_GOAL_SIZE.depth, LEFT_RIGHT_WALL_GOAL_SIZE.height);
             (u = new CANNON.Box(new CANNON.Vec3(BACK_WALL_GOAL_SIZE.width, BACK_WALL_GOAL_SIZE.depth, BACK_WALL_GOAL_SIZE.height))),
                 (_ = new CANNON.Box(new CANNON.Vec3(LEFT_RIGHT_WALL_GOAL_SIZE.width, LEFT_RIGHT_WALL_GOAL_SIZE.depth, LEFT_RIGHT_WALL_GOAL_SIZE.height))),
                 (p = new CANNON.Box(new CANNON.Vec3(UP_WALL_GOAL_SIZE.width, UP_WALL_GOAL_SIZE.depth, UP_WALL_GOAL_SIZE.height))),
@@ -1801,7 +1874,7 @@ function CScenario() {
                 SHOW_3D_RENDER && m.addVisual(E);
         }),
         (this.createAreaGoal = function (t, n, i, o) {
-            ////// console.log(arguments, 'createAreaGoal');
+            ////// // console.log(arguments, 'createAreaGoal');
             var a = new CANNON.Box(new CANNON.Vec3(n.width, n.depth, n.height)),
                 s = new CANNON.Body({ mass: 0, userData: o });
             if (
@@ -1866,7 +1939,7 @@ function CScenario() {
             return l;
         }),
         (this.lineGoalCollision = function (e) {
-            console.log('lineGoalCollision');
+            // // console.log('lineGoalCollision');
             s_oGame.areaGoal(e.contact.bj.userData);
         }),
         (this.update = function () {
@@ -2040,7 +2113,7 @@ function CMain(e) {
         (this._loadImages = function () {
             s_oSpriteLibrary.init(this._onImagesLoaded, this._onAllImagesLoaded, this),
                 s_oSpriteLibrary.addSprite("but_play", "./sprites/but_play.png"),
-                s_oSpriteLibrary.addSprite("but_exit", "./sprites/but_exit.png"),
+                s_oSpriteLibrary.addSprite("but_exit", "./assets/image/close-icon.svg"),
                 s_oSpriteLibrary.addSprite("bg_menu", "./assets/image/bg_menu.jpg"),
                 s_oSpriteLibrary.addSprite("bg_game", "./assets/image/bg_game.jpg"),
                 s_oSpriteLibrary.addSprite("odd_middle_green", "./assets/image/level1/green-point.png"),s_oSpriteLibrary.addSprite("defender", "./assets/image/defender@2x.png"),
@@ -2053,7 +2126,7 @@ function CMain(e) {
                 s_oSpriteLibrary.addSprite("odds-gk", "./assets/image/level1/odds-GK@2x.png"),
                 s_oSpriteLibrary.addSprite("odds-defender", "./assets/image/level1/odds-defender@2x.png"),
                 s_oSpriteLibrary.addSprite("msg_box", "./sprites/msg_box.png"),
-                s_oSpriteLibrary.addSprite("audio_icon", "./sprites/audio_icon.png"),
+                s_oSpriteLibrary.addSprite("audio_icon", "assets/image/volume-mute-icon.svg"),
                 s_oSpriteLibrary.addSprite("but_home", "./sprites/but_home.png"),
                 s_oSpriteLibrary.addSprite("but_restart", "./sprites/but_restart.png"),
                 s_oSpriteLibrary.addSprite("but_fullscreen", "./sprites/but_fullscreen.png"),
@@ -2495,7 +2568,8 @@ function CMenu() {
 
             });
             var l = s_oSpriteLibrary.getSprite("audio_icon");
-            (e = { x: CANVAS_WIDTH - l.height / 2 + 500, y: l.height / 2 + 10 }), (r = new CToggle(e.x, e.y, l, s_bAudioActive)), r.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);
+            (e = { x: CANVAS_WIDTH - l.height / 2 + 2000, y: l.height / 2 + 10 }), (r = new CToggle(e.x, e.y, l, s_bAudioActive)),
+             r.addEventListener(ON_MOUSE_UP, this._onAudioToggle, this);
         }
         var c = s_oSpriteLibrary.getSprite("but_info");
         (n = { x: l.height / 2 - 500, y: l.height / 2 + 10 }),
@@ -2675,7 +2749,7 @@ function CHandSwipeAnim(e, t, n, i) {
         this
     );
 }
-////// console.error(e.goalKeeperVisible,'fdsfsd')
+////// // console.error(e.goalKeeperVisible,'fdsfsd')
 var CANVAS_WIDTH = 1360,
     CANVAS_HEIGHT = 640,
     CANVAS_WIDTH_HALF = 0.5 * CANVAS_WIDTH,
@@ -3496,7 +3570,7 @@ var camera,
             scene.add(e),
             controls.attach(e, t),
             scene.add(controls),
-            ////// console.log("CREATE"),
+            ////// // console.log("CREATE"),
             window.addEventListener("keydown", function (e) {
                 switch (e.keyCode) {
                     case 81:

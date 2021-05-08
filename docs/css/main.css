@@ -7,6 +7,7 @@ body{
   background-repeat: repeat-x;
   background-position: top;
   background-image: url(../sprites/bg_tile.jpg);  
+  /* min-width: 760px; */
 }
 
 *, *:before, *:after {
@@ -105,7 +106,7 @@ border-radius: 25px 25px 0px 0px;
 }
 
 .tab .tablinks {
-  width: 115px;
+  width: 12vw;
   height: 34px;
   background: center center no-repeat;
   background-size: contain;
@@ -115,7 +116,7 @@ border-radius: 25px 25px 0px 0px;
   color: #fff;
   font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.6em;
   color: green;
   cursor: pointer;
 }
@@ -152,9 +153,9 @@ width: 9%;
   color: #333;
   border-color: silver !important;
   text-align: center;
-  left: 14%;
+  left: 6%;
   position: relative;
-  width: 178px;
+  width: 18vw !important;
 }
 input:focus{
   box-shadow: 0 0 12px #38c;
@@ -198,7 +199,7 @@ input:focus{
   position: relative;
   height: 134px;
   bottom: 100%;
-  width: 18%;
+  width: 15%;
 }
 
 * {
@@ -729,12 +730,12 @@ input:focus{
 }
 .minus
 {
-left: 24%;
+left: 17%;
 z-index: 1;
 }
 .plus
 {
-  left: 5%;
+  left: -5%;
 }
 .tab {
   display: flex;
@@ -925,7 +926,7 @@ z-index: 1;
   font-size: 16px;
   color: black;
   top: 15%;
-  left: 17%;
+  left: 13%;
   position: relative;
 }
 .betvalue {
@@ -935,9 +936,9 @@ z-index: 1;
   margin-top: 10px;
 }
 .show-odds{
-  width: 15%;
+  width: 18vw;
   position: absolute;
-  top: 100px;
+  top: 19vh;
   left: 20px;
 }
 .show-odd-cont {
@@ -955,7 +956,7 @@ z-index: 1;
 }
 .show-odd-cont img {
   width: 100%;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 span.odd-gk {
   width: 20px;
@@ -968,4 +969,18 @@ span.odd-gk {
   right: 5%;
   bottom: 30%;
   z-index: 3;
+}
+.orientation{
+  position: fixed;
+  background-color: transparent;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index:99999999;
+  display:none;
+}
+.orientation img{
+  width: 100%;
+  height: 100%;
 }

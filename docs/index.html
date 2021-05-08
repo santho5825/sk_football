@@ -52,10 +52,10 @@
 
     
       <div class="volume">
-        <img id="volume_mute" class="volume-icon" 
-        src="assets/image/volume-mute-icon.svg" >
-       <img class="closeicon"  id="close_tab"
-        src="assets/image/close-icon.svg" >
+        <!-- <img id="volume_mute" class="volume-icon" 
+        src="assets/image/volume-mute-icon.svg" > -->
+       <!-- <img class="closeicon"  id="close_tab"
+        src="assets/image/close-icon.svg" > -->
     
       </div>
 
@@ -104,6 +104,21 @@
             </div>
           </div>
         <script>
+            /* check orientation */
+            function checkOrientation() {
+                let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+                var isShow = (window.matchMedia('(max-width:999px) and (orientation:landscape)').matches);
+                if (isMobile) {
+                    if (isShow){
+                        $('.orientation').hide();
+                    } else {
+                        $('.orientation').show();
+                    }
+                } else {
+                    $('.orientation').hide();
+                }
+            }
+
             function format(value) {
                 return (value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
             }
@@ -126,6 +141,10 @@
             }
             var levelData;
             $(document).ready(function () {
+                checkOrientation();
+                $(window).on('resize orientationchange', function(){
+                    checkOrientation();
+                });
                 // when we have api data
                 var levelData = level2Obj;
                 setInfoValue(levelData);
@@ -190,7 +209,7 @@
                 status = status < sendOrderObj.length ? status: 0;
                 var indexVal = status == 1 || status > sendOrderObj.length-1 ? 0: status-1;
                 // console.log(status, indexVal, 'indexVal');
-                // status = 0;
+                status = 1;
                 var soObj = sendOrderObj[status];
 
                 // window.location.href = href;
@@ -198,20 +217,31 @@
                 var gkHit = soObj.data.gkHit == "N"? 0: 100;
                 var config = soObj.data.nextRoundsConfig.colorConfig;
                 var roundsNum = soObj.data.nextRoundsConfig.roundsNum;
+                var guardPos = soObj.data.nextRoundsConfig.guardPos;
                 var hitOdds = soObj.data.hitOdds;
+                var gkOdd = soObj.data.nextRoundsConfig.gkOdd;
                 var guardHit = soObj.data.guardHit;
+                var gkHit = soObj.data.gkHit;
+                console.clear();
+                console.log('roundsNum => ',roundsNum);
+                console.log('guardPos => ',guardPos);
+                console.log('hitOdds => ',hitOdds);
+                console.log('gkOdd => ',gkOdd);
+                console.log('guardHit => ',guardHit);
+                console.log('gkHit => ',gkHit);
+
                 // console.log(hitOdds , 'hitOdds');
                 var sampleCode = [
-                {id: 0, probability: gkHit, value: 8, color: 'O'}, 
-                {id: 1, probability: gkHit, value: 3,  color: 'G'},
-                {id: 2, probability: gkHit, value: 8,  color: 'O'},
-                {id: 3, probability: gkHit, value: 3,  color: 'B'},
-                {id: 4, probability: gkHit, value: 1.2,  color: 'Y'},
-                {id: 5, probability: gkHit, value:1.5,  color: 'B'},
-                {id: 6, probability: gkHit, value: 0.5,  color: 'W'},
-                {id: 7, probability: gkHit, value: 0.5,  color: 'W'},
-                {id: 8, probability: gkHit, value: 0.5,  color: 'W'},
-                {id: 9, probability: gkHit, value: 0.2,  color: 'D'}
+                {id: 0, probability: soObj.data.gkHit == "N" ?gkHit: 100, value: 8, color: 'O'}, 
+                {id: 1, probability: soObj.data.gkHit == "N" ?gkHit: 80, value: 3,  color: 'G'},
+                {id: 2, probability: soObj.data.gkHit == "N" ?gkHit: 60, value: 8,  color: 'O'},
+                {id: 3, probability: soObj.data.gkHit == "N" ?gkHit: 100, value: 3,  color: 'B'},
+                {id: 4, probability: soObj.data.gkHit == "N" ?gkHit: 75, value: 1.2,  color: 'Y'},
+                {id: 5, probability: soObj.data.gkHit == "N" ?gkHit: 75, value:1.5,  color: 'B'},
+                {id: 6, probability: soObj.data.gkHit == "N" ?gkHit: 100, value: 0.5,  color: 'W'},
+                {id: 7, probability: soObj.data.gkHit == "N" ?gkHit: 80, value: 0.5,  color: 'W'},
+                {id: 8, probability: soObj.data.gkHit == "N" ?gkHit: 60, value: 0.5,  color: 'W'},
+                {id: 9, probability: soObj.data.gkHit == "N" ?gkHit: 100, value: 0.2,  color: 'D'}
             ];
 
                 sampleCode.forEach((k)=>{
@@ -221,7 +251,7 @@
                 });
 
                 // console.log(sampleCode, 'dsamplds');
-                if(status == 1){
+                if(status == 0){
                     localStorage.setItem('winAmt', 0);
 
                 }
@@ -234,13 +264,12 @@
                 function setScore(val){
                    
                     var stake = $('#stakeAmount').val();
+                    stake = (typeof(stake) != "number") ? ( !isNaN(stake) ? Number(stake) : 0 ) : stake;
                     var previousAmt = $('.winAmount').text();
                     var winAmt = (val * stake) + Number(previousAmt);
-                    if(status == 1){
-                    $('.winAmount').html(format(0));
-
+                    if(status == 0){
+                        $('.winAmount').html(format(0));
                     } else{
-
                         $('.winAmount').html(format(winAmt));
                     }
                     localStorage.setItem('winAmt', winAmt);
@@ -251,8 +280,11 @@
                     Level_status:status,
                     area_goal_prop: sampleCode,
                     roundsNum: roundsNum,
-                    gkOdd: hitOdds,
+                    hitOdds: hitOdds,
+                    gkOdd: gkOdd,
                     guardHit: !!(guardHit == 'Y'),
+                    gkHit: !!(gkHit == 'Y'),
+                    guardPos: guardPos,
                     area_goal: [
                         {id: 0, probability: 100, value: 8}, 
                         {id: 1, probability: 80, value: 3},
@@ -318,7 +350,7 @@
                         var queryParams = new URLSearchParams(window.location.search);
                 var s = urlParams.get('status') || false;
                         s = Number(s);
-                        if(s < 3){
+                        if(s < sendOrderObj.length){
                             queryParams.set("status",++s);
 
                         } else{
@@ -326,7 +358,7 @@
 
                         }
 
-                        window.location.href = window.location.href.split('?')[0]+'?'+queryParams.toString();
+                        // window.location.href = window.location.href.split('?')[0]+'?'+queryParams.toString();
                     }, 2000)
                     // startTimer(Number(levelData.data.globalConfig.countDown));
                 });
@@ -376,5 +408,8 @@
             </div>
         </div> -->
         <div id="block_game" style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%; display:none"></div>
+        <div class="orientation">
+            <img src="assets/image/orientation.png" />
+        </div>
     </body>
 </html>

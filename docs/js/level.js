@@ -148,7 +148,8 @@ var level3Obj = {
     "message": "Success"
 }
 
-var sendOrderObj = [{
+var sendOrderObj = [
+    {
     "code": 1,
     "data": {
         "orderId": 75506,
@@ -179,7 +180,7 @@ var sendOrderObj = [{
                 }
             ],
             "guardNum": 0,
-            "guardPos": "left",
+            "guardPos": "right",
             "guardColor": "R"
         },
         "nextMaxWinAmount": 4000.00,
@@ -209,7 +210,7 @@ var sendOrderObj = [{
         "nextRoundsConfig": {
             "roundsNum": 2,
             "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
-            "gkOdd": 8,
+            "gkOdd": 100,
             "colorConfig": [
                 {
                     "color": "W",
@@ -248,7 +249,7 @@ var sendOrderObj = [{
             "quickBet": "5,10,50,100,500"
         },
         "finishFlag": "N",
-        "hitOdds": 0.5,
+        "hitOdds": 8,
         "currentWinAmount": 500.00,
         "gkHit": "Y",
         "guardHit": "N",
@@ -302,10 +303,388 @@ var sendOrderObj = [{
             "quickBet": "5,10,50,100,500"
         },
         "finishFlag": "N",
+        "hitOdds": 0.5,
+        "currentWinAmount": 500.00,
+        "gkHit": "N",
+        "guardHit": "Y",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 4,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 0.5,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 3,
+        "currentWinAmount": 500.00,
+        "gkHit": "Y",
+        "guardHit": "N",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 5,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 3,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
         "hitOdds": 8,
         "currentWinAmount": 500.00,
         "gkHit": "N",
         "guardHit": "Y",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 6,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 8,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 3,
+        "currentWinAmount": 500.00,
+        "gkHit": "N",
+        "guardHit": "Y",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 7,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 3,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 8,
+        "currentWinAmount": 500.00,
+        "gkHit": "N",
+        "guardHit": "N",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 8,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 3,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 8,
+        "currentWinAmount": 500.00,
+        "gkHit": "N",
+        "guardHit": "N",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 9,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 3,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 1.2,
+        "currentWinAmount": 500.00,
+        "gkHit": "N",
+        "guardHit": "N",
+        "colorHit": "W"
+    },
+    "message": "Success"
+},
+ {
+    "code": 1,
+    "data": {
+        "orderId": 75506,
+        "nextRoundsConfig": {
+            "roundsNum": 10,
+            "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
+            "gkOdd": 100,
+            "colorConfig": [
+                {
+                    "color": "W",
+                    "odds": 0.5
+                },
+                {
+                    "color": "Y",
+                    "odds": 3
+                },
+                {
+                    "color": "G",
+                    "odds": 1.2
+                },
+                {
+                    "color": "B",
+                    "odds": 3
+                },
+                {
+                    "color": "O",
+                    "odds": 8
+                }
+            ],
+            "guardNum": 0,
+            "guardPos": "left",
+            "guardColor": "R"
+        },
+        "nextMaxWinAmount": 4000.00,
+        "mainBalance": null,
+        "globalConfig": {
+            "onSale": "Y",
+            "onShow": "Y",
+            "minBet": 1000,
+            "maxBet": 10000,
+            "maxWin": 500000,
+            "countDown": 60,
+            "quickBet": "5,10,50,100,500"
+        },
+        "finishFlag": "N",
+        "hitOdds": 0.5,
+        "currentWinAmount": 500.00,
+        "gkHit": "Y",
+        "guardHit": "N",
         "colorHit": "W"
     },
     "message": "Success"
