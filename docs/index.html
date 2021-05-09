@@ -61,9 +61,9 @@
 
 </div>
 <div  id="timer" class="timer">  <span id="time">60</span><br /><span id="seconds">seconds</span> </div> 
-<div class="info-icon">
+<!-- <div class="info-icon">
     <img src="assets/image/info-icon.svg" />
-</div>
+</div> -->
         <div class="bottom-container">
             <div class="Wrap">
               <div class="betAmount">
@@ -80,6 +80,7 @@
             <div class="tab1">
                 <div class="Wallet" style="left:5%;"> Game Wallet </div>
                 <div class="Wallet" style="right: 5%;">Winnings </div>
+                <div class="showScore">x <span class="scoreValue">0</span></div>
             </div>
             <div class="tab">
               <img src="assets/image/game logo.svg" class="icon" >
@@ -127,6 +128,7 @@
                 var display = document.querySelector('#time');
                 var duration = value || 60;
                 var timer = duration, seconds;
+                timer--;
                 var timerInt = setInterval(function () {
                     seconds = parseInt(timer % 60, 10);
                     seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -209,7 +211,7 @@
                 status = status < sendOrderObj.length ? status: 0;
                 var indexVal = status == 1 || status > sendOrderObj.length-1 ? 0: status-1;
                 // console.log(status, indexVal, 'indexVal');
-                status = 1;
+                // status = 1;
                 var soObj = sendOrderObj[status];
 
                 // window.location.href = href;
@@ -258,21 +260,30 @@
                 var score = localStorage.getItem('winAmt');
                 if(score ){
 
-                    setScore(score);
+                    setScore(score, true);
                 }
                 // console.log(status, 'status');
-                function setScore(val){
+                function setScore(val, isOnload){
                    
                     var stake = $('#stakeAmount').val();
                     stake = (typeof(stake) != "number") ? ( !isNaN(stake) ? Number(stake) : 0 ) : stake;
                     var previousAmt = $('.winAmount').text();
+                    previousAmt = (typeof(previousAmt) != "number") ? ( !isNaN(previousAmt) ? Number(previousAmt) : 0 ) : previousAmt;
+
                     var winAmt = (val * stake) + Number(previousAmt);
                     if(status == 0){
-                        $('.winAmount').html(format(0));
+                        $('.winAmount').html(0);
                     } else{
-                        $('.winAmount').html(format(winAmt));
+                        $('.winAmount').html(winAmt);
                     }
                     localStorage.setItem('winAmt', winAmt);
+                    $('.scoreValue').text(val);
+                    if(!isOnload){
+                        $('.showScore').show();
+                        setTimeout(function() {
+                            $('.showScore').hide();
+                        }, 2000);
+                    }
                 }
                 // && soObj.data.gkHit == 'Y'? true: false
                 var oMain = new CMain({
@@ -342,10 +353,15 @@
                 $(oMain).on("but_play", function (evt) {
                     startTimer(Number(levelData.data.globalConfig.countDown));
                 });
-                
+                $(oMain).on("odd_point", function (evt, val) {
+                    let odds = document.querySelectorAll('.show-odd-cont');
+                    odds.forEach((k)=>{
+                        if(k.style) k.style.display = val? 'block': 'none';
+                    })
+                });
                 $(oMain).on("goal_score", function (evt, val) {
-                   setScore(val);
-                   console.log(val, 'score');
+                   setScore(val, false);
+                //    alert(val, 'score');
                     setTimeout(()=>{
                         var queryParams = new URLSearchParams(window.location.search);
                 var s = urlParams.get('status') || false;
@@ -358,7 +374,7 @@
 
                         }
 
-                        // window.location.href = window.location.href.split('?')[0]+'?'+queryParams.toString();
+                        window.location.href = window.location.href.split('?')[0]+'?'+queryParams.toString();
                     }, 2000)
                     // startTimer(Number(levelData.data.globalConfig.countDown));
                 });

@@ -210,7 +210,7 @@ var sendOrderObj = [
         "nextRoundsConfig": {
             "roundsNum": 2,
             "colorRegion": "W,W,W,W,W,W,W,W,W,O,G,G,G,G,O,W,W,B,Y,Y,Y,Y,B,W,W,B,Y,Y,Y,Y,B,W",
-            "gkOdd": 100,
+            "gkOdd": 3,
             "colorConfig": [
                 {
                     "color": "W",
@@ -249,9 +249,9 @@ var sendOrderObj = [
             "quickBet": "5,10,50,100,500"
         },
         "finishFlag": "N",
-        "hitOdds": 8,
+        "hitOdds": 3,
         "currentWinAmount": 500.00,
-        "gkHit": "Y",
+        "gkHit": "N",
         "guardHit": "N",
         "colorHit": "W"
     },
@@ -504,7 +504,7 @@ var sendOrderObj = [
                 }
             ],
             "guardNum": 0,
-            "guardPos": "left",
+            "guardPos": "right",
             "guardColor": "R"
         },
         "nextMaxWinAmount": 4000.00,
@@ -558,7 +558,7 @@ var sendOrderObj = [
                 }
             ],
             "guardNum": 0,
-            "guardPos": "left",
+            "guardPos": "right",
             "guardColor": "R"
         },
         "nextMaxWinAmount": 4000.00,
@@ -576,7 +576,7 @@ var sendOrderObj = [
         "hitOdds": 8,
         "currentWinAmount": 500.00,
         "gkHit": "N",
-        "guardHit": "N",
+        "guardHit": "Y",
         "colorHit": "W"
     },
     "message": "Success"
